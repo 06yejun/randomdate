@@ -1,0 +1,135 @@
+body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 화면이 길어질 수 있으므로 위쪽 정렬 */
+    min-height: 100vh;
+    margin: 0;
+    padding: 30px 0;
+    background-color: #f4f7f6;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 90%;
+    max-width: 420px;
+}
+
+h1 {
+    color: #333;
+    font-size: 26px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.notice-box {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notice-box p {
+    margin: 5px 0;
+}
+
+.chance-display {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #d32f2f;
+}
+
+#chance-num {
+    font-size: 24px;
+    text-decoration: underline;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.result-box {
+    background-color: #f8f9fa;
+    border: 2px dashed #ddd;
+    border-radius: 15px;
+    padding: 20px 15px;
+    margin-bottom: 12px;
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.title-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.result-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #999;
+    line-height: 1.4;
+}
+
+.result-text strong {
+    font-size: 20px;
+}
+
+button {
+    color: white;
+    border: none;
+    padding: 15px 0;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+button:active { transform: scale(0.98); }
+button:disabled { background-color: #cccccc !important; cursor: not-allowed; }
+
+/* 각 버튼별 고유 색상 */
+.btn-subway { background-color: #007bff; }
+.btn-subway:hover { background-color: #0056b3; }
+
+.btn-food { background-color: #ff6b6b; }
+.btn-food:hover { background-color: #e03131; }
+
+.btn-cafe { background-color: #f59f00; }
+.btn-cafe:hover { background-color: #e67700; }
+
+.btn-photo { background-color: #9c36b5; }
+.btn-photo:hover { background-color: #7048e8; }
+
+/* 각 버튼별 고유 색상 */
+.btn-subway { background-color: #007bff; }
+.btn-subway:hover { background-color: #0056b3; }
+
+.btn-food { background-color: #ff6b6b; }
+.btn-food:hover { background-color: #e03131; }
+
+/* 새롭게 추가된 놀거리 버튼 색상 (민트색) */
+.btn-play { background-color: #20c997; }
+.btn-play:hover { background-color: #12b886; }
+
+.btn-cafe { background-color: #f59f00; }
+.btn-cafe:hover { background-color: #e67700; }
+
+.btn-photo { background-color: #9c36b5; }
+.btn-photo:hover { background-color: #7048e8; }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>풀코스 랜덤 데이트</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>🎲 풀코스 랜덤 데이트</h1>
+    
+    <div class="notice-box">
+        <p>⚠️ <strong>주의사항</strong></p>
+        <p>첫 뽑기는 무료지만,<br><strong>'다시 뽑기'는 전체 합쳐서 딱 3번만</strong> 가능합니다!</p>
+        <div class="chance-display">남은 다시 뽑기 기회: <span id="chance-num">3</span>번</div>
+    </div>
+    
+    <!-- 1. 지하철 구역 -->
+    <div class="section">
+        <div class="result-box" id="subway-box">
+            <div class="title-text" id="subway-title">1. 어디로 갈까요?</div>
+            <div class="result-text" id="subway-result">도착역을 뽑아주세요!</div>
+        </div>
+        <button id="subway-btn" class="btn-subway">지하철 노선 뽑기</button>
+    </div>
+
+    <!-- 2. 식사 구역 -->
+    <div class="section">
+        <div class="result-box" id="food-box">
+            <div class="title-text" id="food-title">2. 든든한 식사</div>
+            <div class="result-text" id="food-result">메뉴를 뽑아주세요!</div>
+        </div>
+        <button id="food-btn" class="btn-food">식사 메뉴 뽑기</button>
+    </div>
+
+    <!-- 3. 놀거리 구역 (추가됨!) -->
+    <div class="section">
+        <div class="result-box" id="play-box">
+            <div class="title-text" id="play-title">3. 신나는 액티비티</div>
+            <div class="result-text" id="play-result">놀거리를 뽑아주세요!</div>
+        </div>
+        <button id="play-btn" class="btn-play">놀거리 코스 뽑기</button>
+    </div>
+
+    <!-- 4. 카페 구역 -->
+    <div class="section">
+        <div class="result-box" id="cafe-box">
+            <div class="title-text" id="cafe-title">4. 식후 디저트 타임</div>
+            <div class="result-text" id="cafe-result">카페를 뽑아주세요!</div>
+        </div>
+        <button id="cafe-btn" class="btn-cafe">카페 코스 뽑기</button>
+    </div>
+
+    <!-- 5. 사진 구역 -->
+    <div class="section">
+        <div class="result-box" id="photo-box">
+            <div class="title-text" id="photo-title">5. 오늘의 추억 남기기</div>
+            <div class="result-text" id="photo-result">사진관을 뽑아주세요!</div>
+        </div>
+        <button id="photo-btn" class="btn-photo">네컷 사진관 뽑기</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
