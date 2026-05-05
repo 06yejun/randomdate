@@ -1,22 +1,25 @@
-// 1. 지하철 데이터
+// 1. 지하철 데이터 (양방향 종점 추가, 2호선은 신도림 기준)
 const subwayData = {
-    "1호선": { start: "연천역", max: 98 }, "2호선": { start: "시청역(내선)", max: 51 },
-    "3호선": { start: "대화역", max: 44 }, "4호선": { start: "진접역", max: 51 },
-    "5호선": { start: "방화역", max: 56 }, "6호선": { start: "응암역", max: 39 },
-    "7호선": { start: "장암역", max: 53 }, "8호선": { start: "암사역", max: 24 },
-    "9호선": { start: "개화역", max: 38 }, "서해선": { start: "일산역", max: 21 },
-    "인천 1호선": { start: "계양역", max: 30 }, "인천 2호선": { start: "검단오류역", max: 27 }
+    "1호선": { terminals: ["연천역", "인천역"], max: 98 },
+    "2호선": { reference: "신도림역", max: 43 },
+    "3호선": { terminals: ["대화역", "오금역"], max: 44 },
+    "4호선": { terminals: ["진접역", "오이도역"], max: 51 },
+    "5호선": { terminals: ["방화역", "하남검단산역"], max: 56 }, 
+    "6호선": { terminals: ["응암역", "신내역"], max: 39 },
+    "7호선": { terminals: ["장암역", "석남역"], max: 53 },
+    "8호선": { terminals: ["암사역", "모란역"], max: 24 },
+    "9호선": { terminals: ["개화역", "중앙보훈병원역"], max: 38 }
 };
 
-// 2. 카테고리 데이터 모음
+// 2. 카테고리 데이터 모음 (놀거리 항목 추가 반영)
 const foodCategories = ["한식 🍚", "일식 🍣", "중식 🍜", "양식 🍝", "분식 🍢", "고기 🥩", "패스트푸드 🍔"];
-const playCategories = ["보드게임 카페 🎲", "방탈출 카페 🔐", "신나는 오락실 🕹️", "PC방 데이트 🖥️", "만화카페 📚", "코인노래방 🎤", "볼링장/당구장 🎳"];
+const playCategories = ["보드게임 카페 🎲", "방탈출 카페 🔐", "신나는 오락실 🕹️", "PC방 데이트 🖥️", "만화카페 📚", "코인노래방 🎤", "볼링장 🎳", "당구장 🎱", "스크린 야구장 ⚾", "실내 클라이밍장 🧗", "공방 원데이 클래스 🎨", "조용한 독립서점 📖", "영화관 데이트 🍿"];
 const cafeCategories = ["분위기 좋은 개인 카페 ☕", "대형 프랜차이즈 🏢", "달콤한 디저트 맛집 🍰", "유명 베이커리/빵지순례 🥐"];
 const photoBrands = ["인생네컷 📸", "포토이즘 📸", "하루필름 📸", "포토그레이 📸", "모노맨션 📸", "포토시그니처 📸", "돈룩업 📸"];
 
 const lines = Object.keys(subwayData);
 
-// 기회 관리 상태 변수 (항목이 하나 늘었으므로 play 추가)
+// 기회 관리 상태 변수
 let redrawChances = 3;
 let drawState = { subway: false, food: false, play: false, cafe: false, photo: false };
 
@@ -41,7 +44,6 @@ function handleDraw(type, btnId, boxId, resultId, logicCallback) {
     }
     
     drawState[type] = true;
-    
     btn.disabled = true;
     btn.innerText = "운명 결정 중...";
     resultText.style.color = "#999";
@@ -53,7 +55,7 @@ function handleDraw(type, btnId, boxId, resultId, logicCallback) {
 
         if (timePassed >= 1500) {
             clearInterval(intervalId);
-            logicCallback(resultText);
+            logicCallback(resultText); // 최종 로직 실행
             
             btn.disabled = false;
             btn.innerText = "다시 뽑기 (기회 차감)";
@@ -63,13 +65,29 @@ function handleDraw(type, btnId, boxId, resultId, logicCallback) {
     }, 50);
 }
 
-// 1. 지하철 뽑기
+// 1. 지하철 뽑기 (출발점 기준으로 직관적인 안내)
 document.getElementById('subway-btn').addEventListener('click', () => {
     handleDraw('subway', 'subway-btn', 'subway-box', 'subway-result', (resultEl) => {
         const line = lines[Math.floor(Math.random() * lines.length)];
         const info = subwayData[line];
         const station = Math.floor(Math.random() * info.max) + 1;
-        resultEl.innerHTML = `<span style="color:#007bff">${line}</span><br><strong>${info.start} 방향 ${station}번째 역</strong>`;
+        
+        let directionText = "";
+
+        if (line === "2호선") {
+            // 2호선: 신도림역에서 출발해 내선/외선 순환
+            const circleDir = Math.random() < 0.5 ? "내선순환(시계방향)" : "외선순환(반시계방향)";
+            directionText = `${info.reference}에서 출발해<br><strong>${circleDir}으로 ${station}번째 역</strong>`;
+        } else {
+            // 나머지 호선: 종점 중 하나를 출발역으로, 반대쪽을 방향으로 지정
+            const isFirstStart = Math.random() < 0.5;
+            const startStation = isFirstStart ? info.terminals[0] : info.terminals[1];
+            const endStation = isFirstStart ? info.terminals[1] : info.terminals[0];
+            
+            directionText = `${startStation}에서 출발해<br><strong>${endStation} 방향으로 ${station}번째 역</strong>`;
+        }
+
+        resultEl.innerHTML = `<span style="color:#007bff">${line}</span><br>${directionText}`;
     });
 });
 
@@ -83,11 +101,10 @@ document.getElementById('food-btn').addEventListener('click', () => {
     });
 });
 
-// 3. 놀거리 뽑기 (수정됨)
+// 3. 놀거리 뽑기
 document.getElementById('play-btn').addEventListener('click', () => {
     handleDraw('play', 'play-btn', 'play-box', 'play-result', (resultEl) => {
         const play = playCategories[Math.floor(Math.random() * playCategories.length)];
-        // N번째 장소 제거하고 가장 가까운 곳으로 변경
         resultEl.innerHTML = `식사 후엔 <strong>${play}</strong><br>가장 가까운 곳 검색해서 찾아가기!`;
     });
 });
