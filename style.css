@@ -124,12 +124,12 @@ button:disabled { background-color: #cccccc !important; cursor: not-allowed; }
 .btn-food { background-color: #ff6b6b; }
 .btn-food:hover { background-color: #e03131; }
 
-/* 새롭게 추가된 놀거리 버튼 색상 (민트색) */
-.btn-play { background-color: #20c997; }
-.btn-play:hover { background-color: #12b886; }
+/* 놀거리 1과 2의 색상 분리 */
+.btn-play1 { background-color: #20c997; }
+.btn-play1:hover { background-color: #12b886; }
 
-.btn-cafe { background-color: #f59f00; }
-.btn-cafe:hover { background-color: #e67700; }
+.btn-play2 { background-color: #f59f00; }
+.btn-play2:hover { background-color: #e67700; }
 
 .btn-photo { background-color: #9c36b5; }
 .btn-photo:hover { background-color: #7048e8; }

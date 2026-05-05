@@ -12,24 +12,23 @@ const subwayData = {
 };
 
 // 2. 카테고리 데이터 모음 (놀거리 항목 추가 반영)
-const foodCategories = ["한식 🍚", "일식 🍣", "중식 🍜", "양식 🍝", "분식 🍢", "고기 🥩", "패스트푸드 🍔"];
-const playCategories = ["보드게임 카페 🎲", "방탈출 카페 🔐", "신나는 오락실 🕹️", "PC방 데이트 🖥️", "만화카페 📚", "코인노래방 🎤", "볼링장 🎳", "당구장 🎱", "스크린 야구장 ⚾", "실내 클라이밍장 🧗", "공방 원데이 클래스 🎨", "조용한 독립서점 📖", "영화관 데이트 🍿"];
-const cafeCategories = ["분위기 좋은 개인 카페 ☕", "대형 프랜차이즈 🏢", "달콤한 디저트 맛집 🍰", "유명 베이커리/빵지순례 🥐"];
+const foodCategories = ["한식 🍚", "일식 🍣", "중식 🍜", "양식 🍝", "분식 🍢"];
+const playCategories = ["보드게임 카페 🎲", "방탈출 카페 🔐", "신나는 오락실 🕹️", "PC방 데이트 🖥️", "만화카페 📚", 
+                        "코인노래방 🎤", "볼링장 🎳", "당구장 🎱", "스크린 야구장 ⚾", "실내 클라이밍장 🧗", "공방 원데이 클래스 🎨",  
+                        "조용한 독립서점 📖", "영화관 데이트 🍿", "분위기 좋은 감성 카페 ☕", "대형 프랜차이즈 🏢"];
 const photoBrands = ["인생네컷 📸", "포토이즘 📸", "하루필름 📸", "포토그레이 📸", "모노맨션 📸", "포토시그니처 📸", "돈룩업 📸"];
 
 const lines = Object.keys(subwayData);
 
-// 기회 관리 상태 변수
-let redrawChances = 3;
-let drawState = { subway: false, food: false, play: false, cafe: false, photo: false };
+// 기회 관리 상태 변수 (play1, play2로 분리)
+let redrawChances = 5;
+let drawState = { subway: false, food: false, play1: false, play2: false, photo: false };
 
-// 공통 그리기 함수
 function handleDraw(type, btnId, boxId, resultId, logicCallback) {
     const btn = document.getElementById(btnId);
     const box = document.getElementById(boxId);
     const resultText = document.getElementById(resultId);
 
-    // 다시 뽑기 로직 검사
     if (drawState[type]) {
         if (redrawChances > 0) {
             redrawChances--;
@@ -55,7 +54,7 @@ function handleDraw(type, btnId, boxId, resultId, logicCallback) {
 
         if (timePassed >= 1500) {
             clearInterval(intervalId);
-            logicCallback(resultText); // 최종 로직 실행
+            logicCallback(resultText);
             
             btn.disabled = false;
             btn.innerText = "다시 뽑기 (기회 차감)";
@@ -65,7 +64,7 @@ function handleDraw(type, btnId, boxId, resultId, logicCallback) {
     }, 50);
 }
 
-// 1. 지하철 뽑기 (출발점 기준으로 직관적인 안내)
+// 1. 지하철 뽑기
 document.getElementById('subway-btn').addEventListener('click', () => {
     handleDraw('subway', 'subway-btn', 'subway-box', 'subway-result', (resultEl) => {
         const line = lines[Math.floor(Math.random() * lines.length)];
@@ -75,11 +74,9 @@ document.getElementById('subway-btn').addEventListener('click', () => {
         let directionText = "";
 
         if (line === "2호선") {
-            // 2호선: 신도림역에서 출발해 내선/외선 순환
             const circleDir = Math.random() < 0.5 ? "내선순환(시계방향)" : "외선순환(반시계방향)";
             directionText = `${info.reference}에서 출발해<br><strong>${circleDir}으로 ${station}번째 역</strong>`;
         } else {
-            // 나머지 호선: 종점 중 하나를 출발역으로, 반대쪽을 방향으로 지정
             const isFirstStart = Math.random() < 0.5;
             const startStation = isFirstStart ? info.terminals[0] : info.terminals[1];
             const endStation = isFirstStart ? info.terminals[1] : info.terminals[0];
@@ -101,20 +98,19 @@ document.getElementById('food-btn').addEventListener('click', () => {
     });
 });
 
-// 3. 놀거리 뽑기
-document.getElementById('play-btn').addEventListener('click', () => {
-    handleDraw('play', 'play-btn', 'play-box', 'play-result', (resultEl) => {
+// 3. 첫 번째 놀거리 뽑기
+document.getElementById('play1-btn').addEventListener('click', () => {
+    handleDraw('play1', 'play1-btn', 'play1-box', 'play1-result', (resultEl) => {
         const play = playCategories[Math.floor(Math.random() * playCategories.length)];
-        resultEl.innerHTML = `식사 후엔 <strong>${play}</strong><br>가장 가까운 곳 검색해서 찾아가기!`;
+        resultEl.innerHTML = `첫 번째 코스: <strong>${play}</strong><br>가장 가까운 곳 검색해서 찾아가기!`;
     });
 });
 
-// 4. 카페 뽑기
-document.getElementById('cafe-btn').addEventListener('click', () => {
-    handleDraw('cafe', 'cafe-btn', 'cafe-box', 'cafe-result', (resultEl) => {
-        const cafe = cafeCategories[Math.floor(Math.random() * cafeCategories.length)];
-        const cafeNum = Math.floor(Math.random() * 3) + 1;
-        resultEl.innerHTML = `잠시 쉬어가는 <strong>${cafe}</strong><br>지도 검색 후 <strong>${cafeNum}번째</strong> 장소로 이동!`;
+// 4. 두 번째 놀거리 뽑기
+document.getElementById('play2-btn').addEventListener('click', () => {
+    handleDraw('play2', 'play2-btn', 'play2-box', 'play2-result', (resultEl) => {
+        const play = playCategories[Math.floor(Math.random() * playCategories.length)];
+        resultEl.innerHTML = `두 번째 코스: <strong>${play}</strong><br>가장 가까운 곳 검색해서 찾아가기!`;
     });
 });
 
